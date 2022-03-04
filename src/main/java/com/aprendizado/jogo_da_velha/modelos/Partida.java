@@ -17,10 +17,10 @@ public class Partida {
     @GeneratedValue
     private Long id;
     private final Tabuleiro tabuleiro = new Tabuleiro();
-    private Jogador jogadorAtual;
+    private char jogadorAtual;
 
     public Partida() {
         var random = new Random();
-        this.jogadorAtual = random.nextInt(2) > 0 ? Jogador.X : Jogador.O;
+        this.jogadorAtual = random.nextInt(2) > 0 ? 'X' : 'O';
     }
 }
