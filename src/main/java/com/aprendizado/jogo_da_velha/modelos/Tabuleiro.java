@@ -15,4 +15,19 @@ public class Tabuleiro {
             for (int j = 0; j < 3; j++)
                 this.tabuleiro[i][j] = ' ';
     }
+
+    /**
+     * Indica se a posição apontada por um movimento está ocupada.
+     */
+    public boolean posOcupada(Movimento movimento) {
+        var celula = tabuleiro[movimento.getX()][movimento.getY()];
+        return celula != ' ';
+    }
+
+    /**
+     * Marca uma jogada do jogador na posição indicada pelo movimento.
+     */
+    public void fazMovimento(Character jogador, Movimento movimento) {
+        tabuleiro[movimento.getX()][movimento.getY()] = jogador;
+    }
 }
