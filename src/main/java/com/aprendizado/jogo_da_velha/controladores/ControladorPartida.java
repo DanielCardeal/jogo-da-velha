@@ -44,6 +44,18 @@ public class ControladorPartida {
             case OK:
                 partida.map(repositorio::save);
                 break;
+            case FIM_PARTIDA:
+                partida.map(repositorio::save);
+                Optional<String> vencedor = partida.map(p -> {
+                    var v = p.getVencedor();
+                    if (v == null) {
+                        return "Draw";
+                    }
+                    return v.toString().toUpperCase();
+                });
+                resposta.put("msg", "Partida finalizada");
+                resposta.put("winner", vencedor.get());
+                break;
             case JOGADOR_INVAL:
                 resposta.put("msg", "Jogador inválido");
                 break;
