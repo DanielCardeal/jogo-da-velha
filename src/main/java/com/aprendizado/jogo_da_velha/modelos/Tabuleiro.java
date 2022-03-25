@@ -12,17 +12,13 @@ public class Tabuleiro {
     private final char[][] tabuleiro;
 
     @Getter
-    private Status statusVitoria;
+    private StatusTabuleiro statusVitoria;
     @Getter
     private Character vencedor;
 
-    public enum Status {
-        EMPATE, EM_EXECUCAO, VITORIA
-    }
-
     public Tabuleiro() {
         this.tabuleiro = new char[3][3];
-        statusVitoria = Status.EM_EXECUCAO;
+        statusVitoria = StatusTabuleiro.EM_EXECUCAO;
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 this.tabuleiro[i][j] = ' ';
@@ -80,19 +76,19 @@ public class Tabuleiro {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 if (tabuleiro[x][y] == ' ') {
-                    statusVitoria = Status.EM_EXECUCAO;
+                    statusVitoria = StatusTabuleiro.EM_EXECUCAO;
                     return;
                 }
             }
         }
-        statusVitoria = Status.EMPATE;
+        statusVitoria = StatusTabuleiro.EMPATE;
     }
 
     /**
      * Marca o jogador como vencedor da partida
      */
     private void setVencedor(char jogador) {
-        statusVitoria = Status.VITORIA;
+        statusVitoria = StatusTabuleiro.VITORIA;
         vencedor = jogador;
     }
 }

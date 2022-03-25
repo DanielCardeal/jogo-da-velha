@@ -2,6 +2,7 @@ package com.aprendizado.jogo_da_velha.controladores;
 
 import com.aprendizado.jogo_da_velha.modelos.Movimento;
 import com.aprendizado.jogo_da_velha.modelos.Partida;
+import com.aprendizado.jogo_da_velha.modelos.ResultadoMovimento;
 import com.aprendizado.jogo_da_velha.repositorios.RepositorioPartida;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class ControladorPartida {
         }
 
         var resultadoMov = partida.map((p) -> p.executaMovimento(movimento.getPosicao(), movimento.getJogador()));
-        switch (resultadoMov.orElse(Partida.ResultadoMov.OK)) {
+        switch (resultadoMov.orElse(ResultadoMovimento.OK)) {
             case OK:
                 partida.map(repositorio::save);
                 break;

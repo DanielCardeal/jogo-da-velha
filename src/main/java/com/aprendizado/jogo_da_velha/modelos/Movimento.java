@@ -3,7 +3,7 @@ package com.aprendizado.jogo_da_velha.modelos;
 import lombok.Data;
 
 /**
- * Coordenadas do tabuleiro que indicam a posição de uma jogada..
+ * Coordenadas do tabuleiro que indicam a posição de uma jogada.
  */
 @Data
 public class Movimento {

@@ -16,59 +16,46 @@ import java.util.Random;
 @Data
 @JsonIgnoreProperties({"tabuleiro", "status", "vencedor"})
 public class Partida {
-    public enum Status {
-        FINALIZADA, EM_EXECUCAO
-    }
-
-    public enum ResultadoMov {
-        OK,
-        FIM_PARTIDA,
-        JOGADOR_INVAL,
-        MOV_INVAL,
-        POS_OCUPADA,
-        TURNO_ERR,
-    }
-
     @Id
     @GeneratedValue
     private Long id;
     private final Tabuleiro tabuleiro = new Tabuleiro();
     private char jogadorAtual;
 
-    private Status status;
+    private StatusPartida status;
 
     public Partida() {
         var random = new Random();
         this.jogadorAtual = random.nextInt(2) > 0 ? 'X' : 'O';
-        this.status = Status.EM_EXECUCAO;
+        this.status = StatusPartida.EM_EXECUCAO;
     }
 
-    public ResultadoMov executaMovimento(Movimento movimento, Character jogador) {
+    public ResultadoMovimento executaMovimento(Movimento movimento, Character jogador) {
         // Impede modificação de partidas finalizadas
-        if (status == Status.FINALIZADA)
-            return ResultadoMov.FIM_PARTIDA;
+        if (status == StatusPartida.FINALIZADA)
+            return ResultadoMovimento.FIM_PARTIDA;
         // Validação movimento
         if (!movimento.valido())
-            return ResultadoMov.MOV_INVAL;
+            return ResultadoMovimento.MOV_INVAL;
         if (tabuleiro.posOcupada(movimento))
-            return ResultadoMov.POS_OCUPADA;
+            return ResultadoMovimento.POS_OCUPADA;
         // Validação jogador
         jogador = Character.toUpperCase(jogador);
         if (jogador != 'X' && jogador != 'O')
-            return ResultadoMov.JOGADOR_INVAL;
+            return ResultadoMovimento.JOGADOR_INVAL;
         if (!jogador.equals(jogadorAtual))
-            return ResultadoMov.TURNO_ERR;
+            return ResultadoMovimento.TURNO_ERR;
 
         tabuleiro.fazMovimento(jogador, movimento);
         proximoJogador();
 
         // Checa fim de partida
-        if (tabuleiro.getStatusVitoria() != Tabuleiro.Status.EM_EXECUCAO) {
-            status = Status.FINALIZADA;
-            return ResultadoMov.FIM_PARTIDA;
+        if (tabuleiro.getStatusVitoria() != StatusTabuleiro.EM_EXECUCAO) {
+            status = StatusPartida.FINALIZADA;
+            return ResultadoMovimento.FIM_PARTIDA;
         }
 
-        return ResultadoMov.OK;
+        return ResultadoMovimento.OK;
     }
 
     /**
@@ -76,7 +63,7 @@ public class Partida {
      */
     @Nullable
     public Character getVencedor() {
-        if (tabuleiro.getStatusVitoria() == Tabuleiro.Status.EMPATE)
+        if (tabuleiro.getStatusVitoria() == StatusTabuleiro.EMPATE)
             return null;
         else
             return tabuleiro.getVencedor();
