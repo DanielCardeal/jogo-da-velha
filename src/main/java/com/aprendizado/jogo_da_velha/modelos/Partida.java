@@ -20,12 +20,13 @@ public class Partida {
     @Id
     @GeneratedValue
     private UUID id;
-    private final Tabuleiro tabuleiro = new Tabuleiro();
+    private final Tabuleiro tabuleiro;
     private char jogadorAtual;
     private StatusPartida status;
 
     public Partida() {
         var random = new Random();
+        this.tabuleiro = new Tabuleiro();
         this.jogadorAtual = random.nextInt(2) > 0 ? 'X' : 'O';
         this.status = StatusPartida.EM_EXECUCAO;
     }
