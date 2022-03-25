@@ -6,10 +6,7 @@ import com.aprendizado.jogo_da_velha.modelos.ResultadoMovimento;
 import com.aprendizado.jogo_da_velha.repositorios.RepositorioPartida;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -37,10 +34,10 @@ public class ControladorPartida {
      * Endpoint usado para fazer uma jogada em um determinado tabuleiro.
      */
     @PostMapping("/{id}/movement")
-    public HashMap<String, String> movimento(@RequestBody MovimentoRequisicao movimento) {
+    public HashMap<String, String> movimento(@PathVariable UUID id, @RequestBody MovimentoRequisicao movimento) {
         HashMap<String, String> resposta = new HashMap<>();
         // Procura a partida no banco de dados
-        Optional<Partida> partida = repositorio.findById(movimento.getId());
+        Optional<Partida> partida = repositorio.findById(id);
         if (partida.isEmpty()) {
             resposta.put("msg", "Partida não encontrada");
             return resposta;
@@ -83,7 +80,6 @@ public class ControladorPartida {
 
 @Data
 class MovimentoRequisicao {
-    private UUID id;
     @JsonProperty("player")
     private Character jogador;
     @JsonProperty("position")
