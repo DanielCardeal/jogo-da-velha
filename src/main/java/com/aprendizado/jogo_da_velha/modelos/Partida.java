@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Representa uma partida de jogo da velha.
@@ -18,10 +19,9 @@ import java.util.Random;
 public class Partida {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
     private final Tabuleiro tabuleiro = new Tabuleiro();
     private char jogadorAtual;
-
     private StatusPartida status;
 
     public Partida() {

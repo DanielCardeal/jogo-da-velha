@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/game")
@@ -82,7 +83,7 @@ public class ControladorPartida {
 
 @Data
 class MovimentoRequisicao {
-    private Long id;
+    private UUID id;
     @JsonProperty("player")
     private Character jogador;
     @JsonProperty("position")
