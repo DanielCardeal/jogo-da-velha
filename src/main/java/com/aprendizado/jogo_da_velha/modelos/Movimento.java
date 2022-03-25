@@ -9,6 +9,11 @@ import lombok.Data;
 public class Movimento {
     private int x, y;
 
+    public Movimento(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     /**
      * Verifica se o movimento é válido, ou seja, se ambas as coordenadas estão no intervalo [0..2].
      */
