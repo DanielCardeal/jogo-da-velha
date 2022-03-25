@@ -8,12 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/game")
 public class ControladorPartida {
     private final RepositorioPartida repositorio;
 
@@ -21,7 +23,7 @@ public class ControladorPartida {
         this.repositorio = repositorio;
     }
 
-    @PostMapping("/game")
+    @PostMapping
     public Partida novaPartida() {
         var partida = new Partida();
         return repositorio.save(partida);
@@ -30,7 +32,7 @@ public class ControladorPartida {
     /**
      * Endpoint usado para fazer uma jogada em um determinado tabuleiro.
      */
-    @PostMapping("/game/{id}/movement")
+    @PostMapping("/{id}/movement")
     public HashMap<String, String> movimento(@RequestBody MovimentoRequisicao movimento) {
         HashMap<String, String> resposta = new HashMap<>();
         // Procura a partida no banco de dados
