@@ -23,6 +23,9 @@ public class ControladorPartida {
         this.repositorio = repositorio;
     }
 
+    /**
+     * Cria instância de partida na base de dados e a devolve.
+     */
     @PostMapping
     public Partida novaPartida() {
         var partida = new Partida();
