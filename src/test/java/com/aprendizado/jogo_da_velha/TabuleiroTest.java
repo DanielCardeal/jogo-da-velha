@@ -1,6 +1,7 @@
 package com.aprendizado.jogo_da_velha;
 
 import com.aprendizado.jogo_da_velha.modelos.Movimento;
+import com.aprendizado.jogo_da_velha.modelos.StatusTabuleiro;
 import com.aprendizado.jogo_da_velha.modelos.Tabuleiro;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
@@ -54,6 +55,33 @@ public class TabuleiroTest {
         tabuleiro.fazMovimento('X', new Movimento(0, 2));
         Assert.notNull(
                 tabuleiro.getVencedor(),
+                "Não detectou vitória na diagonal secundária."
+        );
+    }
+
+    @Test
+    public void testaEmpate() {
+        /*
+         Tabuleiro teste:
+         |X|O|X|
+         |X|O|X|
+         |O|X|O|
+         */
+        var tabuleiro = new Tabuleiro();
+
+        tabuleiro.fazMovimento('X', new Movimento(0, 0));
+        tabuleiro.fazMovimento('X', new Movimento(0, 1));
+        tabuleiro.fazMovimento('X', new Movimento(2, 0));
+        tabuleiro.fazMovimento('X', new Movimento(2, 1));
+        tabuleiro.fazMovimento('X', new Movimento(1, 2));
+
+        tabuleiro.fazMovimento('O', new Movimento(0, 2));
+        tabuleiro.fazMovimento('O', new Movimento(1, 0));
+        tabuleiro.fazMovimento('O', new Movimento(1, 1));
+        tabuleiro.fazMovimento('O', new Movimento(2, 2));
+
+        Assert.isTrue(
+                tabuleiro.getStatusVitoria() == StatusTabuleiro.EMPATE,
                 "Não detectou vitória na diagonal secundária."
         );
     }
