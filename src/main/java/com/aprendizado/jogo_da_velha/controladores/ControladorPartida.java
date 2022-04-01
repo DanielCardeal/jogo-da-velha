@@ -3,7 +3,7 @@ package com.aprendizado.jogo_da_velha.controladores;
 import com.aprendizado.jogo_da_velha.modelos.Movimento;
 import com.aprendizado.jogo_da_velha.modelos.Partida;
 import com.aprendizado.jogo_da_velha.modelos.ResultadoMovimento;
-import com.aprendizado.jogo_da_velha.repositorios.RepositorioPartida;
+import com.aprendizado.jogo_da_velha.serviços.ServicoPartida;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
@@ -15,50 +15,45 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/game")
 public class ControladorPartida {
-    private final RepositorioPartida repositorio;
+    private final ServicoPartida servicoPartida;
 
-    public ControladorPartida(RepositorioPartida repositorio) {
-        this.repositorio = repositorio;
+    public ControladorPartida(ServicoPartida servicoPartida) {
+        this.servicoPartida = servicoPartida;
     }
 
     /**
-     * Cria instância de partida na base de dados e a devolve.
+     * Endpoint para criação de novas partidas.
      */
     @PostMapping
     public Partida novaPartida() {
-        var partida = new Partida();
-        return repositorio.save(partida);
+        return servicoPartida.novaPartida();
     }
 
     /**
-     * Endpoint usado para fazer uma jogada em um determinado tabuleiro.
+     * Endpoint usado para fazer uma jogada num determinado tabuleiro.
      */
     @PostMapping("/{id}/movement")
-    public HashMap<String, String> movimento(@PathVariable UUID id, @RequestBody MovimentoRequisicao movimento) {
+    public HashMap<String, String> movimento(@PathVariable UUID id,
+                                             @RequestBody MovimentoRequisicao movimentoRequisicao) {
         HashMap<String, String> resposta = new HashMap<>();
-        // Procura a partida no banco de dados
-        Optional<Partida> partida = repositorio.findById(id);
-        if (partida.isEmpty()) {
+        Optional<Partida> opcionalPartida = servicoPartida.buscaPartida(id);
+        if (opcionalPartida.isEmpty()) {
             resposta.put("msg", "Partida não encontrada");
             return resposta;
         }
 
-        var resultadoMov = partida.map((p) -> p.executaMovimento(movimento.getPosicao(), movimento.getJogador()));
-        switch (resultadoMov.orElse(ResultadoMovimento.OK)) {
+        Partida partida = opcionalPartida.get();
+        Movimento movimento = movimentoRequisicao.getPosicao();
+        Character jogador = movimentoRequisicao.getJogador();
+        ResultadoMovimento resultadoMov = servicoPartida.executaMovimento(partida, movimento, jogador);
+        switch (resultadoMov) {
             case OK:
-                partida.map(repositorio::save);
                 break;
             case FIM_PARTIDA:
-                partida.map(repositorio::save);
-                Optional<String> vencedor = partida.map(p -> {
-                    var v = p.getVencedor();
-                    if (v == null) {
-                        return "Draw";
-                    }
-                    return v.toString().toUpperCase();
-                });
+                Character vencedor = partida.getVencedor();
+                String textoVencedor = vencedor == null ? "Draw" : vencedor.toString().toUpperCase();
                 resposta.put("msg", "Partida finalizada");
-                resposta.put("winner", vencedor.get());
+                resposta.put("winner", textoVencedor);
                 break;
             case JOGADOR_INVAL:
                 resposta.put("msg", "Jogador inválido");
