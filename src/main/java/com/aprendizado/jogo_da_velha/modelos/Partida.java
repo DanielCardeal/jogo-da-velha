@@ -1,6 +1,7 @@
 package com.aprendizado.jogo_da_velha.modelos;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
@@ -29,7 +30,8 @@ public class Partida {
         this.status = StatusPartida.EM_EXECUCAO;
     }
 
-    public ResultadoMovimento executaMovimento(Movimento movimento, Character jogador) {
+    public ResultadoMovimento executaMovimento(@NotNull Movimento movimento,
+                                               @NotNull Character jogador) {
         // Impede modificação de partidas finalizadas
         if (status == StatusPartida.FINALIZADA)
             return ResultadoMovimento.FIM_PARTIDA;

@@ -1,6 +1,7 @@
 package com.aprendizado.jogo_da_velha.modelos;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Embeddable;
 
@@ -27,7 +28,7 @@ public class Tabuleiro {
     /**
      * Indica se a posição apontada por um movimento está ocupada.
      */
-    public boolean posOcupada(Movimento movimento) {
+    public boolean posOcupada(@NotNull Movimento movimento) {
         var celula = tabuleiro[movimento.getX()][movimento.getY()];
         return celula != ' ';
     }
@@ -35,7 +36,7 @@ public class Tabuleiro {
     /**
      * Marca uma jogada do jogador na posição indicada pelo movimento.
      */
-    public void fazMovimento(Character jogador, Movimento movimento) {
+    public void fazMovimento(@NotNull Character jogador, @NotNull Movimento movimento) {
         tabuleiro[movimento.getX()][movimento.getY()] = jogador;
         atualizaStatus();
     }

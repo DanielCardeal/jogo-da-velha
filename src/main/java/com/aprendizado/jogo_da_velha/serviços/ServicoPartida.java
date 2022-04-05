@@ -4,7 +4,7 @@ import com.aprendizado.jogo_da_velha.modelos.Movimento;
 import com.aprendizado.jogo_da_velha.modelos.Partida;
 import com.aprendizado.jogo_da_velha.modelos.ResultadoMovimento;
 import com.aprendizado.jogo_da_velha.repositorios.RepositorioPartida;
-import com.sun.istack.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
