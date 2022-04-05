@@ -1,6 +1,5 @@
 package com.aprendizado.jogo_da_velha.modelos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
@@ -15,7 +14,6 @@ import java.util.UUID;
  */
 @Entity
 @Data
-@JsonIgnoreProperties({"tabuleiro", "status", "vencedor"})
 public class Partida {
     @Id
     @GeneratedValue

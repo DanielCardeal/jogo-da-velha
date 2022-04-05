@@ -1,5 +1,6 @@
 package com.aprendizado.jogo_da_velha.controladores;
 
+import com.aprendizado.jogo_da_velha.dtos.PartidaDto;
 import com.aprendizado.jogo_da_velha.modelos.Movimento;
 import com.aprendizado.jogo_da_velha.modelos.Partida;
 import com.aprendizado.jogo_da_velha.modelos.ResultadoMovimento;
@@ -25,8 +26,9 @@ public class ControladorPartida {
      * Endpoint para criação de novas partidas.
      */
     @PostMapping
-    public Partida novaPartida() {
-        return servicoPartida.novaPartida();
+    public PartidaDto novaPartida() {
+        Partida partida = servicoPartida.novaPartida();
+        return new PartidaDto(partida);
     }
 
     /**
