@@ -14,4 +14,4 @@ A API usa dois endpois de POST para implementar a lógica do programa:
 
 - /game: cria uma nova partida com um tabuleiro vazio e um jogador inicial
 
-- /game/{id}/movement: realiza um movimento para o tabuleiro indicado por *id*.  Deve receber os parametros *player* (string 'x' ou 'o'), *position* (dicionário com chaves 'x' e 'y' com as coordenadas do tabuleiro) e *id*. Note que o id usado é o do response body e não o da URI, isso é consequência do exercício que estava sendo implementado, e não um bug.
+- /game/{id}/movement: realiza um movimento para o tabuleiro indicado por *id*.  Deve receber os parametros *player* (string 'x' ou 'o'), *position* (dicionário com chaves 'x' e 'y' com as coordenadas do tabuleiro) e *id*.
